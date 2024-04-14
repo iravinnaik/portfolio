@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags widget_tweaks %}
+{% load static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/font-awesome.min.css">
+{% endblock extra_css %}
+
+{% block content %}
+
+<!-- Pagehead-->
+<header class="pagehead text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Pagehead Avatar Image-->
+        {% image page.personal_photo original class="pagehead-avatar" %}
+        <!-- Pagehead Heading-->
+        <h1 class="pagehead-heading mt-5">{{ self.first_name | title }} {{ self.second_name | title }}</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fa-solid fa-laptop-code"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <p class="pagehead-subheading font-weight-light mb-0">{{ self.professional_title }}</p>
+    </div>
+</header>
+
+<!-- About -->
+<section id="about" class="page-section">
+    <div class="container">
+        <!-- About Heading-->
+        <h2 class="page-section-heading text-center text-uppercase">About</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fa-solid fa-user-secret"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- About Content-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-lg-6 mx-auto about-text">
+                    {{ page.about|richtext }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience" class="page-section">
+    <!-- Experience Heading-->
+    <h2 class="page-section-heading text-center text-uppercase">Experience</h2>
+    <!-- Icon Divider-->
+    <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="fa-solid fa-gears"></i></div>
+        <div class="divider-custom-line"></div>
+    </div>
+
+    <!-- Experience Content-->
+    {% for exp in self.experience.all %}
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <div class="flex-grow-1">
+                <h3 class="mb-0">{{ exp.job_title }}</h3>
+                <div class="subheading mb-3"><a href={{ exp.company_url }} target="_blank" class="company-name">
+                        {{ exp.company }}</a></div>
+                <ul class="fa-ul">
+                    {% if exp.achievement_1 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-gears"></i></span>{{exp.achievement_1}}</li>
+                    {% endif %}
+                    {% if exp.achievement_2 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-gears"></i></span>{{exp.achievement_2}}</li>
+                    {% endif %}
+                    {% if exp.achievement_3 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-gears"></i></span>{{exp.achievement_3}}</li>
+                    {% endif %}
+                    {% if exp.achievement_4 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-gears"></i></span>{{exp.achievement_4}}</li>
+                    {% endif %}
+
+                </ul>
+            </div>
+            {% if exp.end is None %}
+            <div class="flex-shrink-0">
+                <span>{{ exp.start|date:'F Y' }} - Present</span>
+                <div class="subheading mb-3">{{ exp.location }}</div>
+            </div>
+            {% else %}
+            <div class="flex-shrink-0">
+                <span>{{ exp.start|date:'F Y' }} - {{ exp.end|date:'F Y' }}</span>
+                <div class="subheading mb-3">{{ exp.location }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</section>
+
+<!-- Skills -->
+<section id="skills" class="page-section">
+    <!-- Skills Heading-->
+    <h2 class="page-section-heading text-center text-uppercase">Skills</h2>
+    <!-- Icon Divider-->
+    <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="fa-solid fa-qrcode"></i></div>
+        <div class="divider-custom-line"></div>
+    </div>
+
+    <!-- Skills Icons-->
+    <div class="container">
+        <div class="row">
+            {% for skill in self.skills.all %}
+            <div class="col col-sm-3">
+                <i class="{{ skill.icon|lower }}">
+                    <span>{{ skill.name | upper }}</span>
+                </i>
+            </div>
+            {% endfor %}
+
+            {% for st in self.skilltype.all %}
+            <h3 class="mb-0">{{ st.name }}</h3>
+            <div class="flex-grow-1">
+                <ul class="fa-ul">
+                    {% if st.example_1 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_1|richtext}}</li>
+                    {% endif %}
+                    {% if st.example_2 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_2|richtext}}</li>
+                    {% endif %}
+                    {% if st.example_3 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_3|richtext}}</li>
+                    {% endif %}
+                    {% if st.example_4 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_4|richtext}}</li>
+                    {% endif %}
+                    {% if st.example_5 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_5|richtext}}</li>
+                    {% endif %}
+                    {% if st.example_6 %}
+                    <li><span class="fa-li"><i class="fa-solid fa-qrcode"></i></span>{{st.example_6|richtext}}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education -->
+<section id="education" class="page-section">
+    <div class="container">
+        <!-- Education Heading-->
+        <h2 class="page-section-heading text-center text-uppercase">Education</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fa-solid fa-bars"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Education Content-->
+        {% for ed in self.education.all|dictsortreversed:"end" %}
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                <div class="flex-grow-1">
+                    <h3 class="mb-0">{{ ed.program_name }}, {{ ed.degree }}</h3>
+                    <div class="subheading mb-3"><a href={{ ed.educational_institution_url }} target="_blank"
+                            class="company-name">
+                            {{ ed.educational_institution }}</a></div>
+                </div>
+                {% if ed.end is None %}
+                <div class="flex-shrink-0">
+                    <span>{{ ed.start }} - Present</span>
+                    <div class="subheading mb-3">{{ ed.location }}</div>
+                </div>
+                {% else %}
+                <div class="flex-shrink-0"><span>{{ ed.start|date:'F Y' }} - {{ ed.end|date:'F Y' }}</span>
+                    <div class="subheading mb-3">{{ ed.location }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock content %}
