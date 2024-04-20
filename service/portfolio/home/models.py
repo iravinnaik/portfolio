@@ -31,6 +31,7 @@ class HomePage(AbstractEmailForm):
     professional_title = models.CharField(max_length=140, blank=True, null=True)
     personal_photo = models.ForeignKey(
         "wagtailimages.Image",
+        blank=True,
         null=True,
         on_delete=models.SET_NULL,
         related_name="+",
